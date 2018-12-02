@@ -16,7 +16,7 @@ for hashes, expected in test_twos_and_threes:
     print('{} score={} expected={} [{}]'.format(hashes, score, expected, 'OK' if score == expected else 'NOK'))
     assert score == expected
 
-print('-- TwosThrees Assertions --')
+print('-- SecretHash Assertions --')
 for hashes, expected in test_off_by_one:
     score = generate_secret_hash(hashes)
     print('{} hash={} expected={} [{}]'.format(hashes, score, expected, 'OK' if score == expected else 'NOK'))
