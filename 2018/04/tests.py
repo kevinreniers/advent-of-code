@@ -48,4 +48,5 @@ if __name__ == '__main__':
     assert guards.sleepiest_guard.total_sleep == 50
     assert len(guards.guards) == 2
     assert guards.sleepiest_guard.sleepiest_minute_id() == 240
+    assert guards.strategy2().sleepiest_minute_id() == 4455
 

@@ -60,9 +60,18 @@ class Guard(object):
         self.calc_sleep(self.asleep_at, minute)
 
     def sleepiest_minute(self):
-        return max(self.sleep_minutes.items(), key=operator.itemgetter(1))[0]
+        # print(self.id, self.sleep_minutes)
+        if len(self.sleep_minutes) != 0:
+            return max(self.sleep_minutes.items(), key=operator.itemgetter(1))[0]
+
+    def sleepiest_minute_count(self):
+        if self.sleepiest_minute() is None:
+            return 0
+        return self.sleep_minutes[self.sleepiest_minute()]
 
     def sleepiest_minute_id(self):
+        if self.sleepiest_minute() is None:
+            return 0
         return int(self.id) * self.sleepiest_minute()
 
 
@@ -81,6 +90,15 @@ class Guards(object):
 
         if self.sleepiest_guard.total_sleep < self.guards[guard.id].total_sleep:
             self.sleepiest_guard = self.guards[guard.id]
+
+    def strategy2(self):
+        sleepiest_count = 0
+        sleepiest_guard = None
+        for id, guard in self.guards.items():
+            if guard.sleepiest_minute_count() > sleepiest_count:
+                sleepiest_guard = guard
+                sleepiest_count = guard.sleepiest_minute_count()
+        return sleepiest_guard
 
 
 def log_sleep_parser(logs):
@@ -124,3 +142,7 @@ if __name__ == '__main__':
     sorted_logs = (log_sort(log_parse(unsorted_logs)))
     sleepy_guards = log_sleep_parser(sorted_logs)
     print('Result of Part 1: ', sleepy_guards.sleepiest_guard.sleepiest_minute_id())
+    sleepiest_minute_dude = sleepy_guards.strategy2()
+    print(sleepiest_minute_dude.id, sleepiest_minute_dude.sleepiest_minute(),
+          sleepiest_minute_dude.sleepiest_minute_count())
+    print('Result of Part 2: ', sleepiest_minute_dude.sleepiest_minute_id())
