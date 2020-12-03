@@ -55,6 +55,17 @@ class Grid:
         p_wo_inf = [(k, p, str(self.points[k])) for (k, p) in largest.items() if k not in infinites]
         print(p_wo_inf)
         return max([largest[k] for (k, _, _) in p_wo_inf])
+    
+
+    def within_safe_area(self):
+        area_size = 0
+        for y, row in enumerate(self.grid):
+            for x, _ in enumerate(row):
+                comp_point = Point(x, y)
+                distance_from_all = sum([p.distance_from(comp_point) for p in self.points])
+                if distance_from_all < 10000:
+                    area_size += 1
+        return area_size
 
 with open('test.txt', 'r') as f:
     grid = Grid([Point(*l.rstrip().split(', ')) for l in f])
@@ -72,3 +83,4 @@ with open('data.txt', 'r') as f:
     grid = Grid([Point(*l.rstrip().split(', ')) for l in f])
 
 print(grid.largest_area())
+print(grid.within_safe_area())
