@@ -1,6 +1,3 @@
-with open('test.txt', 'r') as f:
-    lines = [l.rstrip() for l in f]
-
 def calc_seat(line):
     row = line[0:7]
     row_start = 0
@@ -30,6 +27,9 @@ def calc_seat(line):
 def highest_seat_id(seats):
     return max([seat[-1] for seat in seats])
 
+with open('test.txt', 'r') as f:
+    lines = [l.rstrip() for l in f]
+
 test_seats = [calc_seat(line) for line in lines]
 assert(
     test_seats == [
@@ -40,3 +40,8 @@ assert(
     ]
 )
 assert(highest_seat_id(test_seats) == 820)
+
+with open('data.txt', 'r') as f:
+    lines = [l.rstrip() for l in f]
+
+print(highest_seat_id([calc_seat(line) for line in lines]))
