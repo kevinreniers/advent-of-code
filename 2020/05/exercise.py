@@ -27,6 +27,11 @@ def calc_seat(line):
 def highest_seat_id(seats):
     return max([seat[-1] for seat in seats])
 
+
+def lowest_seat_id(seats):
+    return min([seat[-1] for seat in seats])
+
+
 with open('test.txt', 'r') as f:
     lines = [l.rstrip() for l in f]
 
@@ -44,4 +49,10 @@ assert(highest_seat_id(test_seats) == 820)
 with open('data.txt', 'r') as f:
     lines = [l.rstrip() for l in f]
 
-print(highest_seat_id([calc_seat(line) for line in lines]))
+seats = [calc_seat(line) for line in lines]
+highest = highest_seat_id(seats)
+print(highest)
+
+lowest = lowest_seat_id(seats)
+all_seats = range(lowest, highest)
+print(set(all_seats)-set([seat[-1] for seat in seats]))
