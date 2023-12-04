@@ -10,19 +10,35 @@ $sample = [
 
 function process(string $line): int
 {
+    $line = text2digits($line);
+
     preg_match_all('/\d/', $line, $matches);
 
     $first = reset($matches[0]);
     $last = end($matches[0]);
 
-    $v = (int) sprintf('%d%d', $first, $last);
+    return (int) sprintf('%d%d', $first, $last);
+}
 
-    if (getenv('DEBUG')) {
-        echo "LINE $line" . PHP_EOL;
-        echo "VAL: $v" . PHP_EOL;
+function text2digits(string $line)
+{
+    $map = [
+        'one' => '1',
+        'two' => '2',
+        'three' => '3',
+        'four' => '4',
+        'five' => '5',
+        'six' => '6',
+        'seven' => '7',
+        'eight' => '8',
+        'nine' => '9',
+    ];
+
+    while (preg_match('/(one|two|three|four|five|six|seven|eight|nine)/', $line, $matches) === 1) {
+        $line = preg_replace("/$matches[0]/", $map[$matches[0]], $line, 1);
     }
 
-    return $v;
+    return $line;
 }
 
 function calc(array $in): int
