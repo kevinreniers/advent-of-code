@@ -38,3 +38,25 @@ function calc(array $in, int $redCubes, int $greenCubes, int $blueCubes): int
 
 echo 'TEST: ' . calc($sample, 12, 13, 14) . PHP_EOL;
 echo 'REAL: ' . calc(explode(PHP_EOL, file_get_contents('puzzle.txt')), 12, 13, 14) . PHP_EOL;
+
+function leastCubes(string $line): int
+{
+    $sets = explode(': ', $line)[1];
+
+    preg_match_all('/(?P<count>\d+) red/', $sets, $redMatches);
+    preg_match_all('/(?P<count>\d+) green/', $sets, $greenMatches);
+    preg_match_all('/(?P<count>\d+) blue/', $sets, $blueMatches);
+
+    return array_product([
+        max(array_map('intval', $redMatches['count'])),
+        max(array_map('intval', $greenMatches['count'])),
+        max(array_map('intval', $blueMatches['count'])),
+    ]);
+}
+
+function powerOfSets(array $in): int
+{
+    return array_sum(array_map(fn ($item) => leastCubes($item), $in));
+}
+
+echo 'POWER: ' . powerOfSets(explode(PHP_EOL, file_get_contents('puzzle.txt'))) . PHP_EOL;
